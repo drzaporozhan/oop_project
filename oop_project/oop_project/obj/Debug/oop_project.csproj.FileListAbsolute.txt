@@ -1,0 +1,9 @@
+C:\Users\hp\dev\oop_project\oop_project\oop_project\bin\Debug\oop_project.exe.config
+C:\Users\hp\dev\oop_project\oop_project\oop_project\bin\Debug\oop_project.exe
+C:\Users\hp\dev\oop_project\oop_project\oop_project\bin\Debug\oop_project.pdb
+C:\Users\hp\dev\oop_project\oop_project\oop_project\obj\Debug\oop_project.csproj.AssemblyReference.cache
+C:\Users\hp\dev\oop_project\oop_project\oop_project\obj\Debug\oop_project.Properties.Resources.resources
+C:\Users\hp\dev\oop_project\oop_project\oop_project\obj\Debug\oop_project.csproj.GenerateResource.cache
+C:\Users\hp\dev\oop_project\oop_project\oop_project\obj\Debug\oop_project.csproj.CoreCompileInputs.cache
+C:\Users\hp\dev\oop_project\oop_project\oop_project\obj\Debug\oop_project.exe
+C:\Users\hp\dev\oop_project\oop_project\oop_project\obj\Debug\oop_project.pdb
