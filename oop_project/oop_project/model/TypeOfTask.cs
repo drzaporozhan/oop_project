@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace oop_project.model
 {
-    class TypeOfTask
+    enum TypeOfTask
     {
+        TASK,
+        EPIC,
+        SUBTASK
     }
 }
