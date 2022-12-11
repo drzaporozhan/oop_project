@@ -31,5 +31,30 @@ namespace oop_project.model
         }
 
         public int EpicId { get => epicId; set => epicId = value; }
+
+        public override string ToString()
+        {
+            if(Deadline != null)
+            {
+                return Id +
+                    "," + TypeOfTask.SUBTASK +
+                    "," + Name +
+                    "," + Status +
+                    "," + Description +
+                    "," + epicId +
+                    "," + Deadline +
+                    "," + Duration;
+            }
+            else
+            {
+                return Id +
+                    "," + TypeOfTask.SUBTASK +
+                    "," + Name +
+                    "," + Status +
+                    "," + Description +
+                    "," + epicId;
+            }
+        }
     }
+    
 }

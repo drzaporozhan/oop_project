@@ -72,7 +72,26 @@ namespace oop_project.model
             return hashCode;
         }
 
-        // добавить toString;
+        public override string ToString()
+        {
+            if (Deadline != null)
+            {
+                return Id +
+                    "," + TypeOfTask.TASK +
+                    "," + Name +
+                    "," + Status +
+                    "," + Description +
+                    "," + Deadline +
+                    "," + Duration;
+            }
+            else
+            {
+                return Id +
+                    "," + TypeOfTask.TASK +
+                    "," + Name +
+                    "," + Status +
+                    "," + Description;
+            }
+        }
     }
-
 }
