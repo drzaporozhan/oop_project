@@ -51,7 +51,10 @@ namespace oop_project.model
         public DateTime Deadline { get => deadline; set => deadline = value; }
         public Status Status { get => status; set => status = value; }
 
-
+        virtual public TypeOfTask getTypeOfTask()
+        {
+            return TypeOfTask.TASK;
+        }
 
         public override bool Equals(object obj)
         {

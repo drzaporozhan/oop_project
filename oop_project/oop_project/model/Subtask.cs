@@ -10,6 +10,14 @@ namespace oop_project.model
     {
         private int epicId;
 
+
+        public override TypeOfTask getTypeOfTask()
+        {
+            return TypeOfTask.SUBTASK;
+        }
+
+        
+
         public Subtask(string name, string description, Status status, int epicId) : base(name, description, status)
         {
             this.EpicId = epicId;
@@ -31,5 +39,7 @@ namespace oop_project.model
         }
 
         public int EpicId { get => epicId; set => epicId = value; }
+
+        
     }
 }

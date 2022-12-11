@@ -10,6 +10,11 @@ namespace oop_project.model
     {
         private HashSet<int> subtasksIds;
 
+        public override TypeOfTask getTypeOfTask()
+        {
+            return TypeOfTask.EPIC;
+        }
+
         public Epic(string name, string description, HashSet<int> subtasksIds) : base(name, description, Status.NEW)
         {
             this.SubtasksIds = subtasksIds;
