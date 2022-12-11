@@ -52,7 +52,10 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="managers\TaskManager.cs" />
+    <Compile Include="model\Epic.cs" />
     <Compile Include="model\Status.cs" />
+    <Compile Include="model\Subtask.cs" />
     <Compile Include="model\Task.cs" />
     <Compile Include="model\TypeOfTask.cs" />
     <Compile Include="Program.cs" />
