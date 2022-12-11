@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace oop_project.model
 {
-    class Epic: Task
+    class Epic : Task
     {
         private HashSet<int> subtasksIds;
 
@@ -22,6 +22,26 @@ namespace oop_project.model
 
         public HashSet<int> SubtasksIds { get => subtasksIds; set => subtasksIds = value; }
 
-        // добавить toString;
+        public override string ToString()
+        {
+            if (Deadline != null)
+            {
+                return Id +
+                    "," + TypeOfTask.EPIC +
+                    "," + Name +
+                    "," + Status +
+                    "," + Description +
+                    "," + Deadline +
+                    "," + Duration;
+            }
+            else
+            {
+                return Id +
+                    "," + TypeOfTask.EPIC +
+                    "," + Name +
+                    "," + Status +
+                    "," + Description;
+            }
+        }
     }
 }
