@@ -6,3 +6,11 @@ C:\Users\hp\dev\oop_project\oop_project\oop_project\obj\Debug\oop_project.csproj
 C:\Users\hp\dev\oop_project\oop_project\oop_project\obj\Debug\oop_project.csproj.CoreCompileInputs.cache
 C:\Users\hp\dev\oop_project\oop_project\oop_project\obj\Debug\oop_project.exe
 C:\Users\hp\dev\oop_project\oop_project\oop_project\obj\Debug\oop_project.pdb
+C:\oop\oop_project\oop_project\oop_project\obj\Debug\oop_project.Properties.Resources.resources
+C:\oop\oop_project\oop_project\oop_project\obj\Debug\oop_project.csproj.GenerateResource.cache
+C:\oop\oop_project\oop_project\oop_project\obj\Debug\oop_project.csproj.CoreCompileInputs.cache
+C:\oop\oop_project\oop_project\oop_project\obj\Debug\oop_project.exe
+C:\oop\oop_project\oop_project\oop_project\obj\Debug\oop_project.pdb
+C:\oop\oop_project\oop_project\oop_project\bin\Debug\oop_project.exe.config
+C:\oop\oop_project\oop_project\oop_project\bin\Debug\oop_project.exe
+C:\oop\oop_project\oop_project\oop_project\bin\Debug\oop_project.pdb

@@ -55,9 +55,9 @@ namespace oop_project.managers
             List<int> ids = new List<int>();
             foreach (Task i in val)
             {
-                String str = i.ToString();
-                String[] split = str.Split(',');
-                ids.Add(Int32.Parse(split[0]));
+                string str = i.ToString();
+                string[] split = str.Split(',');
+                ids.Add(int.Parse(split[0]));
             }
             return ids;
         }
@@ -66,10 +66,10 @@ namespace oop_project.managers
         {
             if (head == null)
             {
-                this.head = createNode(value, ID);
+                head = createNode(value, ID);
                 return;
             }
-            ListNode currentNode = this.head;
+            ListNode currentNode = head;
             while (currentNode.getNext() != null)
             {
                 currentNode = currentNode.getNext();
@@ -85,8 +85,8 @@ namespace oop_project.managers
             {
                 if (fortask[i].Equals(valueToRemove))
                 {
-                    this.removeNode(this.nodes[i]);
-                    this.nodes.Remove(i);
+                    removeNode(nodes[i]);
+                    nodes.Remove(i);
                     break;
                 }
             }
@@ -96,7 +96,7 @@ namespace oop_project.managers
         {
             if (nodeToRemove.getPrevious() == null)
             {
-                this.head = nodeToRemove.getNext();
+                head = nodeToRemove.getNext();
                 nodeToRemove.getNext().setPrevious(null);
                 return;
             }
@@ -110,14 +110,14 @@ namespace oop_project.managers
         private ListNode createNode(Task value, int ID)
         {
             ListNode newNode = new ListNode(null, null, value);
-            this.nodes.Add(ID, newNode);
+            nodes.Add(ID, newNode);
             return newNode;
         }
 
         public List<Task> getValues()
         {
             HashSet<Task> uniqueTasks = new HashSet<Task>();
-            ListNode currentNode = this.head;
+            ListNode currentNode = head;
             uniqueTasks.Add(currentNode.getTask());
             while (currentNode.getNext() != null)
             {
@@ -127,8 +127,7 @@ namespace oop_project.managers
             List<Task> values = new List<Task>(uniqueTasks);
             if (!values.Any())
             {
-                Console.WriteLine("error!");// написать исключение
-                return values;// уберем
+                throw new ManagerSaveException("История отсутствует");
             }
             else
             {
