@@ -13,13 +13,14 @@ namespace oop_project.model
         private string description;
         private Status status;
         private int duration;
-        private DateTime deadline;
+        private DateTime ? deadline;
 
         public Task(string name, string description, Status status)
         {
             this.Name = name;
             this.Description = description;
             this.Status = status;
+            this.Duration = 0;
         }
 
         //пока временно
@@ -29,6 +30,7 @@ namespace oop_project.model
             this.Name = name;
             this.Description = description;
             this.Status = status;
+            this.Duration = 0;
         }
 
         public Task(string name, string description, Status status, int duration, DateTime deadline) : this(name, description, status)
@@ -48,7 +50,7 @@ namespace oop_project.model
         public string Name { get => name; set => name = value; }
         public string Description { get => description; set => description = value; }
         public int Duration { get => duration; set => duration = value; }
-        public DateTime Deadline { get => deadline; set => deadline = value; }
+        public DateTime  Deadline { get => (DateTime)deadline; set => deadline = value; }
         public Status Status { get => status; set => status = value; }
 
         virtual public TypeOfTask getTypeOfTask()
