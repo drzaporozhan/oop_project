@@ -11,34 +11,54 @@ namespace oop_project.managers
     {
         private Dictionary<int, Task> listOfTasksInMemory = new Dictionary<int, Task>();
         private int idCount = 0;
+        private HistoryManager historyManager;
+        private SortedSet<Task> listOfTasksWithTime = new SortedSet<Task>(
+            new DateComparer());
 
+        internal HistoryManager HistoryManager { get => historyManager; set => historyManager = value; }
 
+        public InMemoryTaskManager(HistoryManager historyManager)
+        {
+            this.HistoryManager = historyManager;
+        }
+
+        internal class DateComparer : IComparer<Task>
+        {
+            public int Compare(Task o1, Task o2)
+            {
+                if (o1.Deadline != null && o2.Deadline!=null)
+                {
+                    return o1.Deadline.CompareTo(o2.Deadline);
+                } else if (o1.Deadline == null && o2.Deadline != null)
+                {
+                    return 1;
+                } else if(o1.Deadline != null && o2.Deadline == null)
+                {
+                    return -1;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
+        }
 
         private int makeNewId()
         {
             return idCount++;
         }
 
-        public void clearTasks()
+        virtual public void clearTasks()
         {
-            List<int> list = new List<int>();
-            foreach (int i in listOfTasksInMemory.Keys)
-            {
-                list.Add(i);
-            }
-            foreach (int id in list)
+            foreach (int id in listOfTasksInMemory.Keys)
             {
                 removeTaskById(id);
             }
         }
 
-        public int createNewTask(model.Task task)
+        virtual public int createNewTask(model.Task task)
         {
-            if (task.Id>-1)
-            {
-                Console.WriteLine("Ошибка, задача с недопустимым id");
-            }
-            else if (listOfTasksInMemory.ContainsKey(task.Id))
+            if (listOfTasksInMemory.ContainsKey(task.Id))
             {
                 Console.WriteLine("Ошибка, эта задача уже есть");
             }
@@ -62,7 +82,7 @@ namespace oop_project.managers
             {
                 task.Id=makeNewId();
                 listOfTasksInMemory.Add(task.Id, task);
-              //  tasksWithTime.add(task);
+                listOfTasksWithTime.Add(task);
                 return task.Id;
             }
             return -100;
@@ -75,8 +95,6 @@ namespace oop_project.managers
             Dictionary<Status, int> statusCounter = new Dictionary<Status, int>();
             int valueOfAllSubtasks = 0;
             int statusCount;
-            DateTime start;
-            DateTime end;
             bool flag = true;
             foreach (Subtask subtask in subtasks)
             {
@@ -97,35 +115,31 @@ namespace oop_project.managers
             {
                 epic.Status = Status.IN_PROCESS;
             }
-            /*foreach (Subtask subtask in  subtasks)
+            epic.Duration = 0;
+            foreach (Subtask subtask in  subtasks)
             {
-                if (subtask.getStartTime() != null && subtask.getDuration() != null)
+                if (subtask.Deadline != null && subtask.Duration>0)
                 {
-                    if (subtasks.size() == 1 || flag)
+                    if (subtasks.Count() == 1 || flag)
                     {
-                        epic.setStartTime(subtask.getStartTime());
-                        epic.setEndTime(subtask.getEndTime());
-                        epic.setDuration(Duration.between(subtask.getStartTime(), subtask.getEndTime()));
+                        epic.Deadline = subtask.Deadline;
+                        epic.Duration = subtask.Duration;
                         flag = false;
                     }
                     else
                     {
-                        if (subtask.getStartTime().isBefore(epic.getStartTime()))
+                        if (subtask.Deadline < epic.Deadline)
                         {
-                            epic.setStartTime(subtask.getStartTime());
+                            epic.Deadline = subtask.Deadline;
                         }
-                        if (subtask.getEndTime().isAfter(epic.getEndTime()))
-                        {
-                            epic.setEndTime(subtask.getEndTime());
-                        }
-                        epic.setDuration(Duration.between(subtask.getStartTime(), subtask.getEndTime()));
+                        epic.Duration += subtask.Duration;
                     }
                 }
 
-            }*/
+            }
         }
 
-        public List<Subtask> getAllSubtasksOfEpicByEpicId(int id)
+        virtual public List<Subtask> getAllSubtasksOfEpicByEpicId(int id)
         {
             Task task = listOfTasksInMemory[id];
             if (!task.getTypeOfTask().Equals(TypeOfTask.EPIC))
@@ -143,7 +157,7 @@ namespace oop_project.managers
             return subtasks;
         }
 
-        public List<model.Task> getListOfAllTasks()
+        virtual public List<model.Task> getListOfAllTasks()
         {
             List<Task> allTasks = new List<Task>();
             foreach (Task task in listOfTasksInMemory.Values)
@@ -153,23 +167,20 @@ namespace oop_project.managers
             return allTasks;
         }
 
-        public List<model.Task> getPrioritizedTasks()
-        {
-            throw new NotImplementedException();
-        }
+        virtual public List<model.Task> getPrioritizedTasks() => listOfTasksWithTime.ToList();
 
-        public model.Task getTaskById(int id)
+        virtual public model.Task getTaskById(int id)
         {
             if (!listOfTasksInMemory.ContainsKey(id))
             {
                 Console.WriteLine("Ошибка, этой задачи нет");
                 // add Exception, make try catch
             }
-            // add history manager
+            HistoryManager.add(getTaskById(id));
             return listOfTasksInMemory[id];
         }
 
-        public void removeTaskById(int id)
+        virtual public void removeTaskById(int id)
         {
             if (!listOfTasksInMemory.ContainsKey(id))
             {
@@ -202,18 +213,14 @@ namespace oop_project.managers
             }
             else
             {
-                //tasksWithTime.remove(getTaskById(id));
+                listOfTasksWithTime.Remove(getTaskById(id));
                 listOfTasksInMemory.Remove(id);
             }
         }
 
-        public void updateTask(model.Task task)
+        virtual public void updateTask(model.Task task)
         {
-           // if (task.Id == null)
-           // {
-           //     System.out.println("Ошибка, задача с пустым id");
-           //     return;
-           // }
+           
             if (!listOfTasksInMemory.ContainsKey(task.Id))
             {
                 Console.WriteLine("Ошибка, этой задачи нет ");
@@ -250,5 +257,6 @@ namespace oop_project.managers
             }
             return count;
         }
+
     }
 }
