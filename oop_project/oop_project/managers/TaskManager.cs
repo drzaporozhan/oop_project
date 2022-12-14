@@ -24,8 +24,6 @@ namespace oop_project.managers
 
         List<Task> getListOfAllTasks();
 
-        //HistoryManager getHistoryManager();
-
         List<Task> getPrioritizedTasks();
     }
 }

@@ -52,10 +52,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="managers\FileTaskManager.cs" />
     <Compile Include="managers\InMemoryHistoryManager.cs" />
     <Compile Include="managers\HistoryManager.cs" />
     <Compile Include="managers\InMemoryTaskManager.cs" />
     <Compile Include="managers\ListNode.cs" />
+    <Compile Include="managers\ManagerSaveException.cs" />
     <Compile Include="managers\TaskManager.cs" />
     <Compile Include="model\Epic.cs" />
     <Compile Include="model\Status.cs" />
