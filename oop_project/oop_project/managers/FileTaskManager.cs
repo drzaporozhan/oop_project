@@ -11,7 +11,14 @@ namespace oop_project.managers
 {
     class FileTaskManager: InMemoryTaskManager
     {
-        public FileTaskManager(HistoryManager historyManager) : base(historyManager) { }
+        string fileName;
+
+        public string FileName { get => fileName; set => fileName = value; }
+
+        public FileTaskManager(string path, HistoryManager historyManager) : base(historyManager)
+        {
+            FileName = path+".csv";
+        }
 
         override public Task getTaskById(int id)
         {
@@ -61,14 +68,13 @@ namespace oop_project.managers
             StringBuilder bd = new StringBuilder();
             try
             {
-                if (File.Exists(Path.GetFullPath("filewriter4.csv")));
-                File.Delete(Path.GetFullPath("filewriter4.csv"));
+                if (File.Exists(Path.GetFullPath(FileName))) { File.Delete(Path.GetFullPath(FileName)); }
             }
-            catch (NullReferenceException e)
+            catch (NullReferenceException)
             {
-                throw new ManagerSaveException("Файла не существует");
+                throw new ManagerException("Файла не существует");
             }
-            //string example = "id, type, name, status, description, deadline, duration, epicid";
+            
             foreach(Task task in tasks)
             {
                 string str = task.ToString();
@@ -81,20 +87,20 @@ namespace oop_project.managers
                 bd = parserForIDs(ids, bd);
 
             }
-            catch (NullReferenceException e)
+            catch (NullReferenceException)
             {
-                Console.WriteLine("NullPointerException");
+                throw new ManagerException("NullPointerException");
             }
             try  
             {
-                StreamWriter fileWriter = new StreamWriter("filewriter4.csv", false);
+                StreamWriter fileWriter = new StreamWriter(FileName, false);
                 fileWriter.Write(bd.ToString());
-            } catch (IOException e)
+            } catch (IOException)
             {
-                throw new ManagerSaveException("Файла не существует");
+                throw new ManagerException("Файла не существует");
             }
         }
-        StringBuilder parser(string str, StringBuilder bd)
+        private StringBuilder parser(string str, StringBuilder bd)
         {
             string[] split = str.Split(',');
             int count = 0;
@@ -120,7 +126,7 @@ namespace oop_project.managers
             return bd;
         }
 
-        StringBuilder parserForIDs(List<int> ids, StringBuilder bd)
+        private StringBuilder parserForIDs(List<int> ids, StringBuilder bd)
         {
             int count = 0;
             foreach (int j in ids)
@@ -139,7 +145,7 @@ namespace oop_project.managers
 
         public static FileTaskManager loadFromFile(string path)
         {
-            FileTaskManager taskManager = new FileTaskManager(new InMemoryHistoryManager());
+            FileTaskManager taskManager = new FileTaskManager(path, new InMemoryHistoryManager());
             List<string> listForTasks = new List<string>();
             try  
             {
@@ -166,7 +172,7 @@ namespace oop_project.managers
             } 
             catch (IOException e)
             {
-                throw new ManagerSaveException("Файла не существует");
+                throw new ManagerException("Файла не существует");
             }
         }
         private static Task fromString(string value)
