@@ -127,7 +127,7 @@ namespace oop_project.managers
             List<Task> values = new List<Task>(uniqueTasks);
             if (!values.Any())
             {
-                throw new ManagerSaveException("История отсутствует");
+                throw new ManagerException("История отсутствует");
             }
             else
             {

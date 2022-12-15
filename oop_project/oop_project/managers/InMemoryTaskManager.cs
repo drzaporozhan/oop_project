@@ -60,7 +60,7 @@ namespace oop_project.managers
         {
             if (listOfTasksInMemory.ContainsKey(task.Id))
             {
-                throw new ManagerSaveException("Ошибка, эта задача уже есть");
+                throw new ManagerException("Ошибка, эта задача уже есть");
             }
             else if (task.getTypeOfTask().Equals(TypeOfTask.SUBTASK))
             {
@@ -68,7 +68,7 @@ namespace oop_project.managers
                 int epicId = subtask.EpicId;
                 if (!listOfTasksInMemory.ContainsKey(epicId))
                 {
-                    throw new ManagerSaveException("Ошибка, такого эпика нет в базе");
+                    throw new ManagerException("Ошибка, такого эпика нет в базе");
                 }
                 subtask.Id=makeNewId();
                 listOfTasksInMemory.Add(subtask.Id, subtask);
@@ -85,7 +85,7 @@ namespace oop_project.managers
                 listOfTasksWithTime.Add(task);
                 return task.Id;
             }
-            throw new ManagerSaveException("Невозможно создать задачу");
+            throw new ManagerException("Невозможно создать задачу");
         }
 
         private void updateEpicStatus(Epic epic)
@@ -143,7 +143,7 @@ namespace oop_project.managers
             Task task = listOfTasksInMemory[id];
             if (!task.getTypeOfTask().Equals(TypeOfTask.EPIC))
             {
-                throw new ManagerSaveException("Ошибка, невозможно получить все подзадачи эпика");
+                throw new ManagerException("Ошибка, невозможно получить все подзадачи эпика");
             }
             Epic epic = (Epic)task;
             HashSet<int> subtasksIds = epic.SubtasksIds;
@@ -172,7 +172,7 @@ namespace oop_project.managers
         {
             if (!listOfTasksInMemory.ContainsKey(id))
             {
-                throw new ManagerSaveException("Ошибка, этой задачи нет");
+                throw new ManagerException("Ошибка, этой задачи нет");
             }
             HistoryManager.add(getTaskById(id));
             return listOfTasksInMemory[id];
@@ -182,7 +182,7 @@ namespace oop_project.managers
         {
             if (!listOfTasksInMemory.ContainsKey(id))
             {
-                throw new ManagerSaveException("Невозможно удалить задачу, её нет");
+                throw new ManagerException("Невозможно удалить задачу, её нет");
             }
             Task task = listOfTasksInMemory[id];
             if (task.getTypeOfTask().Equals(TypeOfTask.SUBTASK))
@@ -199,7 +199,7 @@ namespace oop_project.managers
                 Epic epic = (Epic)task;
                 if (!(epic.SubtasksIds.Count==0 || epic.Status == Status.DONE))
                 {
-                    throw new ManagerSaveException("Ошибка, нельзя удалять эпик с подзадачами, " +
+                    throw new ManagerException("Ошибка, нельзя удалять эпик с подзадачами, " +
                         "только если нет подзадач или их статус 'DONE'");
                 }
                 else
@@ -219,7 +219,7 @@ namespace oop_project.managers
            
             if (!listOfTasksInMemory.ContainsKey(task.Id))
             {
-                throw new ManagerSaveException("Ошибка, этой задачи нет ");
+                throw new ManagerException("Ошибка, этой задачи нет ");
             }
             if (task.getTypeOfTask().Equals(TypeOfTask.SUBTASK))
             {
@@ -227,7 +227,7 @@ namespace oop_project.managers
                 int epicId = subtask.EpicId;
                 if (!listOfTasksInMemory.ContainsKey(epicId))
                 {
-                    throw new ManagerSaveException("Ошибка, такого эпика нет в базе");
+                    throw new ManagerException("Ошибка, такого эпика нет в базе");
                 }
                 listOfTasksInMemory.Add(subtask.Id, subtask);
                 Epic epic = (Epic)listOfTasksInMemory[epicId];

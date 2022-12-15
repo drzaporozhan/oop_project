@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace oop_project.managers
 {
-    class ManagerSaveException: Exception
+    class ManagerException: Exception
     {
-        public ManagerSaveException(string message)
+        public ManagerException(string message)
          : base(message) { }
     }
 }
