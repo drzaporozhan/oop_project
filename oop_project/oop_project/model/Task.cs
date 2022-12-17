@@ -13,7 +13,7 @@ namespace oop_project.model
         private string description;
         private Status status;
         private int duration;
-        private DateTime ? deadline;
+        private DateTime deadline;
 
         public Task(string name, string description, Status status)
         {
@@ -21,6 +21,7 @@ namespace oop_project.model
             this.Description = description;
             this.Status = status;
             this.Duration = 0;
+            Id = -1;
         }
 
         //пока временно
@@ -50,7 +51,7 @@ namespace oop_project.model
         public string Name { get => name; set => name = value; }
         public string Description { get => description; set => description = value; }
         public int Duration { get => duration; set => duration = value; }
-        public DateTime  Deadline { get => (DateTime)deadline; set => deadline = value; }
+        public DateTime  Deadline { get => deadline; set => deadline = value; }
         public Status Status { get => status; set => status = value; }
 
         virtual public TypeOfTask getTypeOfTask()
@@ -80,7 +81,7 @@ namespace oop_project.model
 
         public override string ToString()
         {
-            if (Deadline != null)
+            if (Deadline != DateTime.MinValue)
             {
                 return Id +
                     "," + TypeOfTask.TASK +

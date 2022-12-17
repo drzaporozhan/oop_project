@@ -118,6 +118,7 @@ namespace oop_project.managers
         {
             HashSet<Task> uniqueTasks = new HashSet<Task>();
             ListNode currentNode = head;
+            if (head == null) return new List<Task>();
             uniqueTasks.Add(currentNode.getTask());
             while (currentNode.getNext() != null)
             {

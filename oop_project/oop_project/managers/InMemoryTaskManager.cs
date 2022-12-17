@@ -26,13 +26,15 @@ namespace oop_project.managers
         {
             public int Compare(Task o1, Task o2)
             {
-                if (o1.Deadline != null && o2.Deadline!=null)
+                if (o1.Deadline != DateTime.MinValue && o2.Deadline != DateTime.MinValue)
                 {
                     return o1.Deadline.CompareTo(o2.Deadline);
-                } else if (o1.Deadline == null && o2.Deadline != null)
+                }
+                else if (o1.Deadline == DateTime.MinValue && o2.Deadline != DateTime.MinValue)
                 {
                     return 1;
-                } else if(o1.Deadline != null && o2.Deadline == null)
+                }
+                else if (o1.Deadline != DateTime.MinValue && o2.Deadline == DateTime.MinValue)
                 {
                     return -1;
                 }
@@ -50,10 +52,8 @@ namespace oop_project.managers
 
         virtual public void clearTasks()
         {
-            foreach (int id in listOfTasksInMemory.Keys)
-            {
-                removeTaskById(id);
-            }
+            listOfTasksInMemory.Clear();
+            listOfTasksWithTime.Clear();
         }
 
         virtual public int createNewTask(model.Task task)
@@ -74,7 +74,12 @@ namespace oop_project.managers
                 listOfTasksInMemory.Add(subtask.Id, subtask);
                 Epic epic = (Epic)listOfTasksInMemory[epicId];
                 HashSet<int> subtasksIds = epic.SubtasksIds;
+                if(subtasksIds.Count == 0)
+                {
+                    subtasksIds = new HashSet<int>();
+                }
                 subtasksIds.Add(subtask.Id);
+                epic.SubtasksIds = subtasksIds;
                 updateEpicStatus(epic);
                 return subtask.Id;
             }
@@ -92,21 +97,22 @@ namespace oop_project.managers
         {
             List<Subtask> subtasks = getAllSubtasksOfEpicByEpicId(epic.Id);
             Dictionary<Status, int> statusCounter = new Dictionary<Status, int>();
-            int valueOfAllSubtasks = 0;
-            int statusCount;
+            statusCounter.Add(Status.DONE, 0);
+            statusCounter.Add(Status.IN_PROCESS, 0);
+            statusCounter.Add(Status.NEW, 0);
+            int valueOfAllSubtasks = subtasks.Count;
             bool flag = true;
             foreach (Subtask subtask in subtasks)
             {
-                statusCount = getOrDefault(statusCounter, subtask.Status, 0);
-                statusCount++;
-                statusCounter.Add(subtask.Status, statusCount);
-                valueOfAllSubtasks++;
+                statusCounter.Remove(subtask.Status);
+                statusCounter.Add(subtask.Status, getOrDefault(subtasks, subtask.Status, 0));
+
             }
-            if (valueOfAllSubtasks == 0 || getOrDefault(statusCounter, Status.NEW, 0) == valueOfAllSubtasks)
+            if (valueOfAllSubtasks == 0 || statusCounter[Status.NEW] == valueOfAllSubtasks)
             {
-                epic.Status=Status.NEW;
+                epic.Status = Status.NEW;
             }
-            else if (getOrDefault(statusCounter, Status.DONE, 0) == valueOfAllSubtasks)
+            else if (statusCounter[Status.DONE] == valueOfAllSubtasks)
             {
                 epic.Status = Status.DONE;
             }
@@ -114,11 +120,11 @@ namespace oop_project.managers
             {
                 epic.Status = Status.IN_PROCESS;
             }
-            epic.Duration = 0;
-            foreach (Subtask subtask in  subtasks)
+            foreach (Subtask subtask in subtasks)
             {
-                if (subtask.Deadline != null && subtask.Duration>0)
+                if (subtask.Deadline != DateTime.MinValue && subtask.Duration > 0)
                 {
+                    epic.Duration = 0;
                     if (subtasks.Count() == 1 || flag)
                     {
                         epic.Deadline = subtask.Deadline;
@@ -174,7 +180,7 @@ namespace oop_project.managers
             {
                 throw new ManagerException("Ошибка, этой задачи нет");
             }
-            HistoryManager.add(getTaskById(id));
+            HistoryManager.add(listOfTasksInMemory[id]);
             return listOfTasksInMemory[id];
         }
 
@@ -209,7 +215,7 @@ namespace oop_project.managers
             }
             else
             {
-                listOfTasksWithTime.Remove(getTaskById(id));
+                listOfTasksWithTime.Remove(listOfTasksInMemory[id]);
                 listOfTasksInMemory.Remove(id);
             }
         }
@@ -229,22 +235,24 @@ namespace oop_project.managers
                 {
                     throw new ManagerException("Ошибка, такого эпика нет в базе");
                 }
+                listOfTasksInMemory.Remove(subtask.Id);
                 listOfTasksInMemory.Add(subtask.Id, subtask);
                 Epic epic = (Epic)listOfTasksInMemory[epicId];
                 updateEpicStatus(epic);
             }
             else
             {
+                listOfTasksInMemory.Remove(task.Id);
                 listOfTasksInMemory.Add(task.Id, task);
             }
         }
 
-        private int getOrDefault(Dictionary<Status, int> dict,Status status,  int defaultValue)
+        private int getOrDefault(List<Subtask> dict, Status status, int defaultValue)
         {
             int count = defaultValue;
-            foreach(Status st in dict.Keys)
+            foreach (Task st in dict)
             {
-                if (st.Equals(status))
+                if (st.Status.Equals(status))
                 {
                     count++;
                 }
