@@ -14,3 +14,6 @@ C:\oop\oop_project\oop_project\oop_project\obj\Debug\oop_project.pdb
 C:\oop\oop_project\oop_project\oop_project\bin\Debug\oop_project.exe.config
 C:\oop\oop_project\oop_project\oop_project\bin\Debug\oop_project.exe
 C:\oop\oop_project\oop_project\oop_project\bin\Debug\oop_project.pdb
+C:\oop\oop_project\oop_project\oop_project\obj\Debug\oop_project.LogInMenu.resources
+C:\oop\oop_project\oop_project\oop_project\obj\Debug\oop_project.Choice.resources
+C:\oop\oop_project\oop_project\oop_project\obj\Debug\oop_project.History.resources

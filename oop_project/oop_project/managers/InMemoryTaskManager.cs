@@ -2,12 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 
 namespace oop_project.managers
 {
-    class InMemoryTaskManager : TaskManager
+    public class InMemoryTaskManager : TaskManager
     {
         private Dictionary<int, Task> listOfTasksInMemory = new Dictionary<int, Task>();
         private int idCount = 0;
@@ -70,11 +69,11 @@ namespace oop_project.managers
                 {
                     throw new ManagerException("Ошибка, такого эпика нет в базе");
                 }
-                subtask.Id=makeNewId();
+                subtask.Id = makeNewId();
                 listOfTasksInMemory.Add(subtask.Id, subtask);
                 Epic epic = (Epic)listOfTasksInMemory[epicId];
                 HashSet<int> subtasksIds = epic.SubtasksIds;
-                if(subtasksIds.Count == 0)
+                if (subtasksIds.Count == 0)
                 {
                     subtasksIds = new HashSet<int>();
                 }
@@ -85,7 +84,7 @@ namespace oop_project.managers
             }
             else
             {
-                task.Id=makeNewId();
+                task.Id = makeNewId();
                 listOfTasksInMemory.Add(task.Id, task);
                 listOfTasksWithTime.Add(task);
                 return task.Id;
@@ -154,9 +153,9 @@ namespace oop_project.managers
             Epic epic = (Epic)task;
             HashSet<int> subtasksIds = epic.SubtasksIds;
             List<Subtask> subtasks = new List<Subtask>();
-            foreach(int subtaskId in subtasksIds)
+            foreach (int subtaskId in subtasksIds)
             {
-                Subtask subtask = (Subtask)listOfTasksInMemory[subtaskId] ;
+                Subtask subtask = (Subtask)listOfTasksInMemory[subtaskId];
                 subtasks.Add(subtask);
             }
             return subtasks;
@@ -203,7 +202,7 @@ namespace oop_project.managers
             else if (task.getTypeOfTask().Equals(TypeOfTask.EPIC))
             {
                 Epic epic = (Epic)task;
-                if (!(epic.SubtasksIds.Count==0 || epic.Status == Status.DONE))
+                if (!(epic.SubtasksIds.Count == 0 || epic.Status == Status.DONE))
                 {
                     throw new ManagerException("Ошибка, нельзя удалять эпик с подзадачами, " +
                         "только если нет подзадач или их статус 'DONE'");
@@ -222,7 +221,7 @@ namespace oop_project.managers
 
         virtual public void updateTask(Task task)
         {
-           
+
             if (!listOfTasksInMemory.ContainsKey(task.Id))
             {
                 throw new ManagerException("Ошибка, этой задачи нет ");

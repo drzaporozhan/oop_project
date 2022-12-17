@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Task = oop_project.model.Task;
 
 namespace oop_project.managers
 {
-    interface HistoryManager
+    public interface HistoryManager
     {
         void add(Task task);
         void remove(Task task);

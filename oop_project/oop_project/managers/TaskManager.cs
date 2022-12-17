@@ -1,22 +1,18 @@
-﻿using System;
+﻿using oop_project.model;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using oop_project.model;
 using Task = oop_project.model.Task;
 
 namespace oop_project.managers
 {
-    interface TaskManager
+    public interface TaskManager
     {
-        Task getTaskById(int id) ;
+        Task getTaskById(int id);
 
-        int createNewTask(Task task) ;
+        int createNewTask(Task task);
 
-        void updateTask(Task task) ;
+        void updateTask(Task task);
 
-        void removeTaskById(int id) ;
+        void removeTaskById(int id);
 
         void clearTasks();
 

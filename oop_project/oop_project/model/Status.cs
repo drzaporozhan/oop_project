@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace oop_project.model
+﻿namespace oop_project.model
 {
-    enum Status
+    public enum Status
     {
         NEW,
         IN_PROCESS,

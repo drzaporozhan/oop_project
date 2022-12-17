@@ -1,15 +1,14 @@
-﻿using System;
+﻿using oop_project.model;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using oop_project.model;
 using Task = oop_project.model.Task;
 
 namespace oop_project.managers
 {
-    class FileTaskManager: InMemoryTaskManager
+    public class FileTaskManager : InMemoryTaskManager
     {
         string fileName;
 
@@ -17,7 +16,7 @@ namespace oop_project.managers
 
         public FileTaskManager(string path, HistoryManager historyManager) : base(historyManager)
         {
-            FileName = path+".csv";
+            FileName = path + ".csv";
         }
 
         override public Task getTaskById(int id)
@@ -68,33 +67,34 @@ namespace oop_project.managers
             StringBuilder bd = new StringBuilder();
             try
             {
-                if (File.Exists(FileName)) 
-                { 
-                    File.Delete(FileName); 
+                if (File.Exists(FileName))
+                {
+                    File.Delete(FileName);
                 }
             }
             catch (NullReferenceException)
             {
                 throw new ManagerException("Файла не существует");
             }
-            
-            foreach(Task task in tasks)
+
+            foreach (Task task in tasks)
             {
                 string str = task.ToString();
                 bd = parser(str, bd);
             }
             bd.Append("\n");
-            if(HistoryManager.getHistoryIDs().Any())
+            if (HistoryManager.getHistoryIDs().Any())
             {
                 List<int> ids = HistoryManager.getHistoryIDs();
                 bd = parserForIDs(ids, bd);
             }
-            try  
+            try
             {
                 StreamWriter fileWriter = new StreamWriter(FileName, false);
                 fileWriter.Write(bd.ToString());
                 fileWriter.Close();
-            } catch (IOException)
+            }
+            catch (IOException)
             {
                 throw new ManagerException("Файла не существует");
             }
@@ -168,7 +168,7 @@ namespace oop_project.managers
         {
             FileTaskManager taskManager = new FileTaskManager(path, new InMemoryHistoryManager());
             List<string> listForTasks = new List<string>();
-            try  
+            try
             {
                 StreamReader sr = new StreamReader(taskManager.FileName);
                 while (sr.Peek() >= 0)
@@ -187,7 +187,7 @@ namespace oop_project.managers
                     taskManager.getTaskById(int.Parse(j));
                 }
                 return taskManager;
-            } 
+            }
             catch (IOException)
             {
                 throw new ManagerException("Файла не существует");

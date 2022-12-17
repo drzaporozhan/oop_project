@@ -46,11 +46,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="Choice.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Choice.Designer.cs">
+      <DependentUpon>Choice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="History.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="History.Designer.cs">
+      <DependentUpon>History.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LogInMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LogInMenu.Designer.cs">
+      <DependentUpon>LogInMenu.cs</DependentUpon>
     </Compile>
     <Compile Include="managers\FileTaskManager.cs" />
     <Compile Include="managers\InMemoryHistoryManager.cs" />
@@ -68,6 +80,15 @@
     <Compile Include="model\TypeOfTask.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Choice.resx">
+      <DependentUpon>Choice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="History.resx">
+      <DependentUpon>History.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LogInMenu.resx">
+      <DependentUpon>LogInMenu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

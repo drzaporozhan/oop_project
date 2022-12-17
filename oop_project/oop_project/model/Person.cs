@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace oop_project.model
+﻿namespace oop_project.model
 {
-    class Person
+    public class Person
     {
         private string login;
         private string password;
@@ -29,7 +23,7 @@ namespace oop_project.model
 
         public override string ToString()
         {
-            return login+";"+password+";"+"\n";
+            return login + ";" + password + ";" + "\n";
         }
     }
 }
