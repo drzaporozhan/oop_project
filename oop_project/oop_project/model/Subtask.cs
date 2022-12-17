@@ -39,7 +39,7 @@ namespace oop_project.model
 
         public override string ToString()
         {
-            if(Deadline != null)
+            if(Deadline != DateTime.MinValue)
             {
                 return Id +
                     "," + TypeOfTask.SUBTASK +

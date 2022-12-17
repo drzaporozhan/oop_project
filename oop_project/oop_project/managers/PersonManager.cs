@@ -11,7 +11,7 @@ namespace oop_project.managers
 {
     class PersonManager
     {
-        private LinkedList<Person> listOfPersons = new LinkedList<Person>();
+        private List<Person> listOfPersons = new List<Person>();
         private FileTaskManager fileTaskManager;
 
         internal FileTaskManager FileTaskManager { get => fileTaskManager; set => fileTaskManager = value; }
@@ -27,7 +27,8 @@ namespace oop_project.managers
                 }
             }
             FileTaskManager = new FileTaskManager(login, new InMemoryHistoryManager());
-            listOfPersons.AddLast(new Person(login, password));
+            listOfPersons.Add(new Person(login, password));
+            personInFile();
         }
 
         public Task getTaskById(int id)
@@ -70,48 +71,30 @@ namespace oop_project.managers
             return fileTaskManager.HistoryManager.getHistory();
         }
 
-        public void personInFile()
+        private void personInFile()
         {
-            try
-            {
-                if (!File.Exists(Path.GetFullPath("users.csv")))
-                {
-                    StreamWriter fileWriter = new StreamWriter("users.csv", true);
-                    fileWriter.Write(listOfPersons.ElementAt<Person>(0).ToString());
-                }
-                else
-                {
-                    StreamWriter fileWriter = new StreamWriter("users.csv", true);
-                    fileWriter.Write(listOfPersons.Last?.Value.ToString());
-                }
-            }
-            catch (NullReferenceException e)
-            {
-                throw new ManagerException("Файла не существует");
-            }
-          
+            StreamWriter fileWriter = new StreamWriter("users.csv", true);
+            fileWriter.Write(listOfPersons.Last().ToString());
+            fileWriter.Close();
         }
 
         private void loadUsersFromFile()
         {
-            try
+            if (!File.Exists("users.csv")) File.Create("users.csv").Close();
+            else
             {
                 StreamReader sr = new StreamReader("users.csv");
-                while (sr.EndOfStream)
+                while (sr.Peek() >= 0)
                 {
                     String line = sr.ReadLine();
-                    listOfPersons.AddLast(fromString(line));
+                    listOfPersons.Add(fromString(line));
                 }
-            }
-            catch (IOException)
-            {
-                throw new ManagerException("Файла не существует");
+                sr.Close();
             }
         }
 
         private static Person fromString(string value)
         {
-            Person task = null;
             string[] split = value.Split(';');
             return new Person(split[0],split[1]);
         }

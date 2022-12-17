@@ -17,6 +17,7 @@ namespace oop_project.model
 
         public Epic(string name, string description) : base(name, description, Status.NEW)
         {
+            subtasksIds = new HashSet<int>();
         }
 
         public HashSet<int> SubtasksIds { get => subtasksIds; set => subtasksIds = value; }
@@ -28,7 +29,7 @@ namespace oop_project.model
 
         public override string ToString()
         {
-            if (Deadline != null)
+            if (Deadline != DateTime.MinValue)
             {
                 return Id +
                     "," + TypeOfTask.EPIC +

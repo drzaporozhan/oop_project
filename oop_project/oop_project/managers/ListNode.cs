@@ -10,7 +10,7 @@ namespace oop_project.managers
     {
         private ListNode previous;
         private ListNode next;
-        private Task task;
+        private Task task = null;
 
         public ListNode(ListNode obj, ListNode obj1, Task task)
         {

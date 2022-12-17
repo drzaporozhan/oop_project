@@ -36,20 +36,20 @@ namespace oop_project.managers
 
         override public void updateTask(Task task)
         {
-            save();
             base.updateTask(task);
+            save();
         }
 
         override public void removeTaskById(int id)
         {
-            save();
             base.removeTaskById(id);
+            save();
         }
 
         override public void clearTasks()
         {
-            save();
             base.clearTasks();
+            save();
         }
 
         override public List<Subtask> getAllSubtasksOfEpicByEpicId(int id)
@@ -68,7 +68,10 @@ namespace oop_project.managers
             StringBuilder bd = new StringBuilder();
             try
             {
-                if (File.Exists(Path.GetFullPath(FileName))) { File.Delete(Path.GetFullPath(FileName)); }
+                if (File.Exists(FileName)) 
+                { 
+                    File.Delete(FileName); 
+                }
             }
             catch (NullReferenceException)
             {
@@ -80,21 +83,17 @@ namespace oop_project.managers
                 string str = task.ToString();
                 bd = parser(str, bd);
             }
-            try
+            bd.Append("\n");
+            if(HistoryManager.getHistoryIDs().Any())
             {
-                bd.Append("\n");
                 List<int> ids = HistoryManager.getHistoryIDs();
                 bd = parserForIDs(ids, bd);
-
-            }
-            catch (NullReferenceException)
-            {
-                throw new ManagerException("NullPointerException");
             }
             try  
             {
                 StreamWriter fileWriter = new StreamWriter(FileName, false);
                 fileWriter.Write(bd.ToString());
+                fileWriter.Close();
             } catch (IOException)
             {
                 throw new ManagerException("Файла не существует");
@@ -103,26 +102,48 @@ namespace oop_project.managers
         private StringBuilder parser(string str, StringBuilder bd)
         {
             string[] split = str.Split(',');
-            int count = 0;
-            for (int i = 0; i < 10; i++)
+            if (split.Length == 7)
             {
-                if (i < 5)
+                int count = 0;
+                for (int i = 0; i < 10; i++)
                 {
-                    bd.Append(split[i]);
-                    count++;
-                    bd.Append(';');
+                    if (i < 5)
+                    {
+                        bd.Append(split[i]);
+                        count++;
+                        bd.Append(';');
+                    }
+                    else if (i > 5)
+                    {
+                        bd.Append(split[i - 1]);
+                        if (count++ == split.Length - 1)
+                        {
+                            break;
+                        }
+                        bd.Append(';');
+                    }
+                    else
+                    {
+                        bd.Append("");
+                        bd.Append(";");
+                    }
                 }
-                else if (i > 5)
+                bd.Append("\n");
+            }
+            else
+            {
+                int count = 0;
+                foreach (string j in split)
                 {
-                    bd.Append(split[i - 1]);
+                    bd.Append(j);
                     if (count++ == split.Length - 1)
                     {
                         break;
                     }
                     bd.Append(';');
                 }
+                bd.Append("\n");
             }
-            bd.Append("\n");
             return bd;
         }
 
@@ -149,28 +170,25 @@ namespace oop_project.managers
             List<string> listForTasks = new List<string>();
             try  
             {
-                StreamReader sr = new StreamReader(path);
-                while (sr.EndOfStream)
+                StreamReader sr = new StreamReader(taskManager.FileName);
+                while (sr.Peek() >= 0)
                 {
-                    String line = sr.ReadLine();
+                    string line = sr.ReadLine();
                     listForTasks.Add(line);
                 }
-                Console.WriteLine(listForTasks);//для нас
-                for (int i = 1; i < listForTasks.Count - 2; i++)
+                sr.Close();
+                for (int i = 0; i < listForTasks.Count - 2; i++)
                 {
                     taskManager.createNewTask(fromString(listForTasks[i]));
                 }
-                for (int i = listForTasks.Count - 1; i < listForTasks.Count; i++)
+                string[] idsForHistory = listForTasks[listForTasks.Count - 1].Split(';');
+                foreach (string j in idsForHistory)
                 {
-                    string[] idsForHistory = listForTasks[i].Split(';');
-                    foreach (string j in idsForHistory)
-                    {
-                        taskManager.getTaskById(int.Parse(j));
-                    }
+                    taskManager.getTaskById(int.Parse(j));
                 }
                 return taskManager;
             } 
-            catch (IOException e)
+            catch (IOException)
             {
                 throw new ManagerException("Файла не существует");
             }
