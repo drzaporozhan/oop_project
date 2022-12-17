@@ -3,13 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Task = oop_project.model.Task;
 
 namespace oop_project.managers
 {
-    class PersonManager
+    public class PersonManager
     {
         private List<Person> listOfPersons = new List<Person>();
         private FileTaskManager fileTaskManager;
@@ -38,7 +36,7 @@ namespace oop_project.managers
 
         public int createNewTask(Task task)
         {
-            return fileTaskManager.createNewTask(task); ;
+            return fileTaskManager.createNewTask(task);
         }
 
         public void updateTask(Task task)
@@ -96,7 +94,7 @@ namespace oop_project.managers
         private static Person fromString(string value)
         {
             string[] split = value.Split(';');
-            return new Person(split[0],split[1]);
+            return new Person(split[0], split[1]);
         }
 
         public void loggingUser(Person person)

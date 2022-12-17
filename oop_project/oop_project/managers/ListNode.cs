@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Task = oop_project.model.Task;
+﻿using Task = oop_project.model.Task;
 
 namespace oop_project.managers
 {
-    class ListNode
+    public class ListNode
     {
         private ListNode previous;
         private ListNode next;

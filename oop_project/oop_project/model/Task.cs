@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace oop_project.model
 {
-    class Task
+    public class Task
     {
         private int id;
         private string name;
@@ -51,7 +48,7 @@ namespace oop_project.model
         public string Name { get => name; set => name = value; }
         public string Description { get => description; set => description = value; }
         public int Duration { get => duration; set => duration = value; }
-        public DateTime  Deadline { get => deadline; set => deadline = value; }
+        public DateTime Deadline { get => deadline; set => deadline = value; }
         public Status Status { get => status; set => status = value; }
 
         virtual public TypeOfTask getTypeOfTask()

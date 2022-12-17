@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace oop_project.model
 {
-    class Subtask: Task
+    public class Subtask : Task
     {
         private int epicId;
 
@@ -39,7 +35,7 @@ namespace oop_project.model
 
         public override string ToString()
         {
-            if(Deadline != DateTime.MinValue)
+            if (Deadline != DateTime.MinValue)
             {
                 return Id +
                     "," + TypeOfTask.SUBTASK +
@@ -61,5 +57,5 @@ namespace oop_project.model
             }
         }
     }
-    
+
 }
